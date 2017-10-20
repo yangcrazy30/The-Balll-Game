@@ -54,7 +54,7 @@ public class test : MonoBehaviour
     {
 
         Counttext.text = "Count:" + Count.ToString();
-        if (Count >= 8)
+        if (Count >= 9)
             //Wintext.text = "You Win";
             p1.SetActive(true);
 
@@ -65,11 +65,13 @@ public class test : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        if (Count == 9)
+            movement = new Vector3(0, 0, 0);
         rb.AddForce(movement * speed);
     }
     void SetTimeText()
     {
-        if (Count < 8)
+        if (Count < 9)
         {
             Counttime = allthetime - Time.time;
             if (Counttime <= 0)
