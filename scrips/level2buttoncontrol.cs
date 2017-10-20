@@ -16,7 +16,6 @@ public class level2buttoncontrol : MonoBehaviour {
 	}
     public void End()
     {
-        if (Input.GetKey("escape"))
             Application.Quit();
     }
     public void Restart()
