@@ -15,6 +15,8 @@ public class test : MonoBehaviour
     public Text Timermb;
     private int Count;
     public AudioSource warn;
+    private float Xmove;
+    private float Ymove;
     // Use this for initialization
     void Start()
     {
@@ -36,7 +38,7 @@ public class test : MonoBehaviour
     void FixedUpdate()
     {
         SetTimeText();
-        Sportset();
+        //Sportset();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -83,5 +85,20 @@ public class test : MonoBehaviour
                 warn.Play();
                 Timermb.text = "Time:" + Counttime.ToString();
         }
+    }
+    void OnEnable()
+    {
+        EasyJoystick.On_JoystickMove += On_JoystickMove;
+    }
+    void On_JoystickMove(MovingJoystick move)
+    {
+        if (move.joystickName != "New joystick")
+            return;
+        Xmove = move.joystickAxis.x;
+        Ymove = move.joystickAxis.y;
+        Vector3 movement = new Vector3(Xmove, 0, Ymove);
+        if (Count == 9)
+            movement = new Vector3(0, 0, 0);
+        rb.AddForce(movement * speed);
     }
 }
