@@ -35,8 +35,7 @@ public class buttoncontrol : MonoBehaviour {
         SceneManager.LoadScene("level3");
     }
     public void End()
-    {
-        if (Input.GetKey("escape"))
+    { 
             Application.Quit();
     }
 }

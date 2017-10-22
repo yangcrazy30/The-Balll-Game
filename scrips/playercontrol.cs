@@ -6,7 +6,7 @@ public class playercontrol : MonoBehaviour {
     private Rigidbody rb;
     public float speed;
     private int count;
-    private float alltime=15;
+    private float alltime=9999999;
     private float counttime;
     public Text Counttext;
     public Text Wintext;
@@ -15,9 +15,12 @@ public class playercontrol : MonoBehaviour {
     public Text CountTime;
     public AudioSource Musicding;
     public AudioSource Warning;
+    private float Xmove;
+    private float Ymove;
     void Start()
 		{
-            count = 0;
+        Screen.SetResolution(Screen.width, Screen.height, true);
+        count = 0;
             alltime = alltime + Time.time;
             rb = GetComponent<Rigidbody>();     
             SetCountText();
@@ -35,13 +38,7 @@ public class playercontrol : MonoBehaviour {
 		{
         
             SetTimeText();
-        /*float moveHorizontal = Input.GetAxis ("Horizontal");
-        float moveVertical = Input.GetAxis ("Vertical");
-        Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-    if (count >= 8||counttime==0)
-        movement = new Vector3(0, 0, 0);
-    rb.AddForce (movement*speed);*/
-        Sportset();
+        //Sportset();
 		}
     void OnTriggerEnter(Collider other)
             {
@@ -90,7 +87,25 @@ public class playercontrol : MonoBehaviour {
             movement = new Vector3(0, 0, 0);
         rb.AddForce(movement * speed);
     }
-
+  void OnEnable()
+    {
+        EasyJoystick.On_JoystickMove += On_JoystickMove;
+    }
+    void OnDisable()
+    {
+        EasyJoystick.On_JoystickMove -= On_JoystickMove;
+    }
+    void On_JoystickMove(MovingJoystick move)
+    {
+        if (move.joystickName != "joystic 1")
+            return;
+        Xmove = move.joystickAxis.x;
+        Ymove = move.joystickAxis.y;
+        Vector3 movement = new Vector3(Xmove, 0, Ymove);
+        if (count == 9|| counttime<=0)
+            movement = new Vector3(0, 0, 0);
+        rb.AddForce(movement * speed);
+    }
 }
 
 

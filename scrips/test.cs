@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class test : MonoBehaviour
 {
-    private float allthetime=25;
+    private float allthetime=99999999;
     private float Counttime;
     public AudioSource ding;
     public float speed;
@@ -20,6 +20,7 @@ public class test : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Screen.SetResolution(Screen.width, Screen.height, true);
         Count = 0;
         allthetime = allthetime + Time.time;
         rb = GetComponent<Rigidbody>();
@@ -90,6 +91,10 @@ public class test : MonoBehaviour
     {
         EasyJoystick.On_JoystickMove += On_JoystickMove;
     }
+    void OnDisable()
+    {
+        EasyJoystick.On_JoystickMove -= On_JoystickMove;
+    }
     void On_JoystickMove(MovingJoystick move)
     {
         if (move.joystickName != "New joystick")
@@ -97,7 +102,7 @@ public class test : MonoBehaviour
         Xmove = move.joystickAxis.x;
         Ymove = move.joystickAxis.y;
         Vector3 movement = new Vector3(Xmove, 0, Ymove);
-        if (Count == 9)
+        if (Count == 9|| Counttime<=0)
             movement = new Vector3(0, 0, 0);
         rb.AddForce(movement * speed);
     }
