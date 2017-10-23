@@ -6,7 +6,7 @@ public class playercontrol : MonoBehaviour {
     private Rigidbody rb;
     public float speed;
     private int count;
-    private float alltime=9999999;
+    private float alltime=25;
     private float counttime;
     public Text Counttext;
     public Text Wintext;
@@ -17,6 +17,8 @@ public class playercontrol : MonoBehaviour {
     public AudioSource Warning;
     private float Xmove;
     private float Ymove;
+    private Vector3 v;
+    private float z;
     void Start()
 		{
         Screen.SetResolution(Screen.width, Screen.height, true);
@@ -24,8 +26,6 @@ public class playercontrol : MonoBehaviour {
             alltime = alltime + Time.time;
             rb = GetComponent<Rigidbody>();     
             SetCountText();
-           // SetTimeText();
-            Wintext.text = "";
            clearpanel.SetActive(false);
            overpanel.SetActive(false);
     }
@@ -38,7 +38,6 @@ public class playercontrol : MonoBehaviour {
 		{
         
             SetTimeText();
-        //Sportset();
 		}
     void OnTriggerEnter(Collider other)
             {
@@ -105,6 +104,13 @@ public class playercontrol : MonoBehaviour {
         if (count == 9|| counttime<=0)
             movement = new Vector3(0, 0, 0);
         rb.AddForce(movement * speed);
+    }
+    void Jump()
+    {
+        v = GetComponent<Rigidbody>().velocity;
+        z = Mathf.Abs(v.y);
+        if (z <= 0)
+            rb.AddForce(0, 300, 0);
     }
 }
 
